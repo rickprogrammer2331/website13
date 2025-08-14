@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram Users Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .product-img:hover {
+            animation: bounce 0.5s;
+        }
+
+        @keyframes bounce {
+            0% { transform: scale(1);}
+            30% { transform: scale(1.15);}
+            60% { transform: scale(0.95);}
+            100% { transform: scale(1);}
+        }
+
+        /* Add styles for the gym banner */
+        .gym-banner {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .gym-banner img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .gym-banner-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .gym-banner h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .gym-banner p {
+            font-size: 1.2em;
+        }
+
+        /* Product fade-in effect */
+        .product {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+        .product.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Overlay (always visible first) -->
+    <div id="login-overlay">
+        <div id="login-section">
+            <h2>Login to Gym Store</h2>
+            <form id="login-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <label>
+                    <input type="checkbox" id="rememberMe"> Remember Me
+                </label>
+                <button type="submit">Login</button>
+            </form>
+            <div id="login-message"></div>
+        </div>
+    </div>
+
+    <!-- Main Content (hidden until login) -->
+    <div id="main-content" style="display:none;">
+        <header>
+            <h1>Gym Store</h1>
+            <p>Shop the best gym clothes and protein shakes for your fitness journey!</p>
+        </header>
+
+        <!-- Gym Banner Image -->
+        <div class="gym-banner">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1200&q=80" alt="Gym Place">
+            <div class="gym-banner-text">
+                <h1>Welcome to Gym Store</h1>
+                <p>Your fitness journey starts here!</p>
+            </div>
+        </div>
+
+        <section class="products">
+            <div class="product-column">
+                <div class="product">
+                    <img src="https://karradagroup.com/cdn/shop/files/TEAM-ONE-LIFE---100_-HYDRO-WHEY-1.6-KG-01_600x_37a0f0c3-19b3-4f5b-8545-a9aca5b27d64.jpg?v=1751221296&width=400" alt="Men's Performance T-Shirt" class="product-img">
+                    <h3>Team One life - Hydro Whey Protein</h3>
+                    <p>$25</p>
+                    <button onclick="openModal('Team One life - Hydro Whey Protein', 25)">Buy Now</button>
+                </div>
+                <div class="product">
+                    <img src="https://karradagroup.com/cdn/shop/products/Performance-t-shirt---Black.red.jpg?v=1625998460&width=600" alt="Women's Yoga Leggings" class="product-img">
+                    <h3>Gorilla Wear - Performance t-shirt</h3>
+                    <p>$35</p>
+                    <button onclick="openModal('Gorilla Wear - Performance t-shirt', 35)">Buy Now</button>
+                </div>
+                <div class="product">
+                    <img src="https://karradagroup.com/cdn/shop/products/DRNOmango.jpg?v=1614354159&width=1200" alt="Gym Shorts" class="product-img">
+                    <h3>TEAM ONE LIFE - DR N.O. PRE-WORKOUT</h3>
+                    <p>$20</p>
+                    <button onclick="openModal('TEAM ONE LIFE - DR N.O. PRE-WORKOUT', 20)">Buy Now</button>
+                </div>
+            </div>
+            <div class="product-column">
+                <div class="product">
+                    <img src="https://karradagroup.com/cdn/shop/products/bcaapinklemonade.jpg?v=1614367259&width=1200" alt="Whey Protein Shake" class="product-img">
+                    <h3>TEAM ONE LIFE- BCAA 2:1:1</h3>
+                    <p>$40</p>
+                    <button onclick="openModal('TEAM ONE LIFE- BCAA 2:1:1', 40)">Buy Now</button>
+                </div>
+                <div class="product">
+                    <img src="https://karradagroup.com/cdn/shop/files/TeamOneLife-JointSupport.jpg?v=1752693942&width=300" alt="Vegan Protein Shake" class="product-img">
+                    <h3>Team One Life - Joint Support | 60 Tablet</h3>
+                    <p>$45</p>
+                    <button onclick="openModal('Team One Life - Joint Support | 60 Tablet', 45)">Buy Now</button>
+                </div>
+                <div class="product">
+                    <img src="https://karradagroup.com/cdn/shop/products/AnimalFlex_44img.webp?v=1653829742&width=1200" alt="Pre-Workout Drink" class="product-img">
+                    <h3>Universal Animal Flex</h3>
+                    <p>$30</p>
+                    <button onclick="openModal('Universal Animal Flex', 30)">Buy Now</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="productTitle">Buy Product</h2>
+            <p>Price: <span id="productPrice"></span> USD</p>
+            <button id="confirm-payment">Proceed to Payment</button>
+        </div>
+    </div>
+
+    <script>
+        let loggedInUsername = null;
+
+        // Login logic
+        document.getElementById('login-form').onsubmit = function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            fetch('http://127.0.0.1:5000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, password, rememberMe })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.message) {
+                    loggedInUsername = username;
+                    document.getElementById('login-message').innerText = "Logged in as " + email;
+                    if (rememberMe) {
+                        localStorage.setItem('username', username);
+                    }
+                    setTimeout(() => {
+                        document.getElementById('login-overlay').style.display = 'none';
+                        document.getElementById('main-content').style.display = '';
+                    }, 1000);
+                } else {
+                    document.getElementById('login-message').innerText = data.error;
+                }
+            });
+        };
+
+        window.onload = function() {
+            // Auto-login if "Remember Me" was checked
+            const savedUsername = localStorage.getItem('username');
+            if (savedUsername) {
+                loggedInUsername = savedUsername;
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('main-content').style.display = '';
+                return; // Don't check paid cookie if already logged in
+            }
+
+            // Show main page if paid
+            if (getCookie('paid') === 'true') {
+                document.getElementById('login-overlay').style.display = 'none';
+                document.getElementById('main-content').style.display = '';
+            }
+        };
+
+        // Payment modal logic
+        function openModal(product, price) {
+            document.getElementById('productTitle').innerText = `Buy ${product}`;
+            document.getElementById('productPrice').innerText = price;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+        document.getElementById('confirm-payment').onclick = function() {
+            const product = document.getElementById('productTitle').innerText.replace('Buy ', '');
+            const price = document.getElementById('productPrice').innerText;
+            fetch('http://127.0.0.1:5000/payment_methos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    product: product,
+                    price: price,
+                    username: loggedInUsername
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.checkout_url) {
+                    window.location.href = data.checkout_url;
+                } else {
+                    alert('Payment error: ' + (data.error || 'Unknown error'));
+                }
+            });
+        };
+
+        // Fade-in products on scroll
+        function revealProductsOnScroll() {
+            const products = document.querySelectorAll('.product');
+            const triggerBottom = window.innerHeight * 0.95;
+            products.forEach(product => {
+                const boxTop = product.getBoundingClientRect().top;
+                if (boxTop < triggerBottom) {
+                    product.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealProductsOnScroll);
+        window.addEventListener('load', revealProductsOnScroll);
+
+        function getCookie(name) {
+            const value = "; " + document.cookie;
+            const parts = value.split("; " + name + "=");
+            if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+    </script>
+</body>
+</html>
