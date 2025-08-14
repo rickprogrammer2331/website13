@@ -1,5 +1,4 @@
 flask
 flask_cors
-smtplib
 redis
 flask_mail
